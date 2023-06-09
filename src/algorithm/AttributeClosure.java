@@ -25,42 +25,51 @@ public class AttributeClosure {
 		functionalDependencies.put(lhs1, rhs1);
 
 		Set<Character> lhs2 = new HashSet<>();
-		lhs2.add('B');
+		lhs2.add('A');
 		lhs2.add('C');
 		Set<Character> rhs2 = new HashSet<>();
-		rhs2.add('A');
-		rhs2.add('D');
+		rhs2.add('B');
 		functionalDependencies.put(lhs2, rhs2);
 
 		Set<Character> lhs3 = new HashSet<>();
-		lhs3.add('D');
+		lhs3.add('B');
+		lhs3.add('C');
 		Set<Character> rhs3 = new HashSet<>();
 		rhs3.add('E');
+		rhs3.add('D');
 		functionalDependencies.put(lhs3, rhs3);
 
-		Set<Character> lhs4 = new HashSet<>();
-		lhs4.add('C');
-		lhs4.add('F');
-		Set<Character> rhs4 = new HashSet<>();
-		rhs4.add('B');
-		functionalDependencies.put(lhs4, rhs4);
+//		Set<Character> lhs4 = new HashSet<>();
+//		lhs4.add('C');
+//		lhs4.add('F');
+//		Set<Character> rhs4 = new HashSet<>();
+//		rhs4.add('B');
+//		functionalDependencies.put(lhs4, rhs4);
+		
+		Set<Character> inputAttributes = new HashSet<>();
+		inputAttributes.add('C');
+//		inputAttributes.add('A');
+		inputAttributes.add('D');
+		inputAttributes.add('E');
+		inputAttributes.add('B');
 		
 		// Tìm bao đóng
-		Set<Character> closure = findAttributeClosure(attributes, functionalDependencies);
+		Set<Character> closure = findAttributeClosure(inputAttributes, attributes, functionalDependencies);
 
 		// In kết quả
 		System.out.println("Bao đóng: " + closure);
 	}
 	/**
 	 * Hàm tìm bao đóng của một tập thuộc tính đối với tập phụ thuộc hàm
+	 * @param inputAttributes Các thuộc tính xuất phát
 	 * @param attributes Tập thuộc tính U
 	 * @param functionalDependencies Tập các phụ thuộc hàm F trên U
 	 * @return Bao đóng của tập thuộc tính U đối với tập phụ thuộc hàm F trên U
 	 */
-	public static Set<Character> findAttributeClosure(Set<Character> attributes,
+	public static Set<Character> findAttributeClosure(Set<Character> inputAttributes, Set<Character> attributes,
 			Map<Set<Character>, Set<Character>> functionalDependencies) {
 		// Bao đóng cần tìm 
-		Set<Character> closure = new HashSet<>(attributes);
+		Set<Character> closure = new HashSet<>(inputAttributes);
 		boolean changed;
 
 		do {
