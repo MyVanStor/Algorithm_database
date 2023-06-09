@@ -38,17 +38,10 @@ public class AttributeClosure {
 		rhs3.add('E');
 		rhs3.add('D');
 		functionalDependencies.put(lhs3, rhs3);
-
-//		Set<Character> lhs4 = new HashSet<>();
-//		lhs4.add('C');
-//		lhs4.add('F');
-//		Set<Character> rhs4 = new HashSet<>();
-//		rhs4.add('B');
-//		functionalDependencies.put(lhs4, rhs4);
 		
 		Set<Character> inputAttributes = new HashSet<>();
 		inputAttributes.add('C');
-//		inputAttributes.add('A');
+		inputAttributes.add('A');
 		inputAttributes.add('D');
 		inputAttributes.add('E');
 		inputAttributes.add('B');
