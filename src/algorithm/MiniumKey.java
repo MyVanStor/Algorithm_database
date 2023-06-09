@@ -48,7 +48,6 @@ public class MiniumKey {
 
 	/**
 	 * Phương thức tìm khóa tối thiểu
-	 * 
 	 * @param attributes             Tập thuộc tính U
 	 * @param functionalDependencies Tập các phụ thuộc hàm F trên U
 	 * @return Tập khóa tối thiểu
