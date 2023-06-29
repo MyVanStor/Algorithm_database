@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class AttributeClosure {
+public class AttributeClosure { 
 	public static void main(String[] args) {
 		// Tập thuộc tính ban đầu
 		Set<Character> attributes = new HashSet<>();
@@ -53,7 +53,7 @@ public class AttributeClosure {
 		System.out.println("Bao đóng: " + closure);
 	}
 	/**
-	 * Hàm tìm bao đóng của một tập thuộc tính đối với tập phụ thuộc hàm
+	 * Hàm tìm bao đóng của một tập thuộc tính đối với tập phụ thuộc hàm(Slide chương 6 - tr14)
 	 * @param inputAttributes Các thuộc tính xuất phát
 	 * @param attributes Tập thuộc tính U
 	 * @param functionalDependencies Tập các phụ thuộc hàm F trên U

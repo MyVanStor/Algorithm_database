@@ -4,18 +4,20 @@ import java.util.*;
 
 public class FindAllKey {
     public static void main(String[] args) {
-        // Tập thuộc tính ban đầu
+        // Tập thuộc tính ban đầu (A, B, C)
     	Set<Character> attributes = new HashSet<>();
 		attributes.add('A');
 		attributes.add('B');
 		attributes.add('C');
 		
         // Tập phụ thuộc hàm ban đầu
+		// AB -> C
         Map<Set<Character>, Set<Character>> functionalDependencies = new HashMap<>();
         Set<Character> lhs1 = new HashSet<>(Arrays.asList('A', 'B'));
         Set<Character> rhs1 = new HashSet<>(Collections.singletonList('C'));
         functionalDependencies.put(lhs1, rhs1);
         
+        // C -> A
         Set<Character> lhs2 = new HashSet<>(Arrays.asList('C'));
         Set<Character> rhs2 = new HashSet<>(Collections.singletonList('A'));
         functionalDependencies.put(lhs2, rhs2);
@@ -90,9 +92,8 @@ public class FindAllKey {
     	return attributeMiddle;
     }
     
-    
     /**
-     *  Phương thức tìm tất cả các khóa
+     * Phương thức tìm tất cả các khóa(Slide chương 6 - tr24)
      * @param attributes Tập thuộc tính U
      * @param functionalDependencies
      * @return
@@ -135,7 +136,6 @@ public class FindAllKey {
                 }
             }
         }
-    	
     	return keys;
     }
     
