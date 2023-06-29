@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class AttributeClosure { 
+public class AttributeClosure {
 	public static void main(String[] args) {
 		// Tập thuộc tính ban đầu
 		Set<Character> attributes = new HashSet<>();
@@ -38,30 +38,33 @@ public class AttributeClosure {
 		rhs3.add('E');
 		rhs3.add('D');
 		functionalDependencies.put(lhs3, rhs3);
-		
+
 		Set<Character> inputAttributes = new HashSet<>();
 		inputAttributes.add('C');
 		inputAttributes.add('A');
 		inputAttributes.add('D');
 		inputAttributes.add('E');
 		inputAttributes.add('B');
-		
+
 		// Tìm bao đóng
 		Set<Character> closure = findAttributeClosure(inputAttributes, attributes, functionalDependencies);
 
 		// In kết quả
 		System.out.println("Bao đóng: " + closure);
 	}
+
 	/**
-	 * Hàm tìm bao đóng của một tập thuộc tính đối với tập phụ thuộc hàm(Slide chương 6 - tr14)
-	 * @param inputAttributes Các thuộc tính xuất phát
-	 * @param attributes Tập thuộc tính U
+	 * Hàm tìm bao đóng của một tập thuộc tính đối với tập phụ thuộc hàm(Slide
+	 * chương 6 - tr14)
+	 * 
+	 * @param inputAttributes        Các thuộc tính xuất phát
+	 * @param attributes             Tập thuộc tính U
 	 * @param functionalDependencies Tập các phụ thuộc hàm F trên U
 	 * @return Bao đóng của tập thuộc tính U đối với tập phụ thuộc hàm F trên U
 	 */
 	public static Set<Character> findAttributeClosure(Set<Character> inputAttributes, Set<Character> attributes,
 			Map<Set<Character>, Set<Character>> functionalDependencies) {
-		// Bao đóng cần tìm 
+		// Bao đóng cần tìm
 		Set<Character> closure = new HashSet<>(inputAttributes);
 		boolean changed;
 
@@ -85,7 +88,7 @@ public class AttributeClosure {
 					}
 				}
 			}
-			
+
 		} while (changed);
 		// Trả về bao đóng tìm được
 		return closure;

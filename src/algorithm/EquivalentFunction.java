@@ -66,10 +66,10 @@ public class EquivalentFunction {
 
 	/**
 	 * Phương thức xác định 2 tập phụ thuộc hàm có tương đương nhau hay không
-	 * @param attributes				Tập thuộc tính
-	 * @param functionalDependencies1	Tập phụ thuộc hàm F
-	 * @param functionalDependencies2	Tập phụ thuộc hàm G
-	 * @return							Kết quả của việc so sánh sự tương đương 2 tập phụ thuộc hàm F và G
+	 * @param attributes              Tập thuộc tính
+	 * @param functionalDependencies1 Tập phụ thuộc hàm F
+	 * @param functionalDependencies2 Tập phụ thuộc hàm G
+	 * @return Kết quả của việc so sánh sự tương đương 2 tập phụ thuộc hàm F và G
 	 */
 	public static boolean isEquivalentFunction(Set<Character> attributes,
 			Map<Set<Character>, Set<Character>> functionalDependencies1,
@@ -80,7 +80,7 @@ public class EquivalentFunction {
 		for (Set<Character> set : F) {
 			// Tìm bao đóng của phụ thuộc hàm trên G
 			Set<Character> value = AttributeClosure.findAttributeClosure(set, attributes, functionalDependencies2);
-			// Nếu bao đóng không chứa tập đích của phụ thuộc hàm 
+			// Nếu bao đóng không chứa tập đích của phụ thuộc hàm
 			if (!value.containsAll(functionalDependencies1.get(set))) {
 				return false;
 			}
@@ -96,7 +96,7 @@ public class EquivalentFunction {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }
