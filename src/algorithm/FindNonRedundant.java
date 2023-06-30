@@ -24,7 +24,7 @@ public class FindNonRedundant {
 
 		// Tập phụ thuộc hàm ban đầu
 		Multimap<Set<Character>, Set<Character>> functionalDependencies1 = ArrayListMultimap.create();
-		
+
 		Set<Character> lhs11 = new HashSet<>();
 		lhs11.add('A');
 		Set<Character> rhs11 = new HashSet<>();
@@ -61,10 +61,8 @@ public class FindNonRedundant {
 		Set<Character> rhs15 = new HashSet<>();
 		rhs15.add('J');
 		functionalDependencies1.put(lhs15, rhs15);
-		
-		System.out.println(functionalDependencies1);
-		
-//		System.out.println(findNonRedundant(attributes, functionalDependencies1));
+
+		System.out.println(findNonRedundant(attributes, functionalDependencies1));
 	}
 
 	/**
@@ -74,14 +72,13 @@ public class FindNonRedundant {
 	 * @param functionalDependencies Tập phụ thuộc hàm F0
 	 * @return Tập phụ thuộc hàm không dư thừa
 	 */
-	@SuppressWarnings("unlikely-arg-type")
 	public static Multimap<Set<Character>, Set<Character>> findNonRedundant(Set<Character> attributes,
 			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
 		// Tập phụ thuộc hàm không dư thừa cần tìm
 		Multimap<Set<Character>, Set<Character>> answer = ArrayListMultimap.create(functionalDependencies);
 		// Chứa các phụ thuộc hàm dư thừa
-		Set<Set<Character>> valueRemove = new HashSet<>();
-
+		Multimap<Set<Character>, Set<Character>> remove = ArrayListMultimap.create();
+		// Chứa vế trái của các phụ thuộc hàm
 		Set<Set<Character>> keySets = answer.keySet();
 
 		// Xét từng phụ thuộc hàm trong tập phụ thuộc hàm F0
@@ -90,21 +87,29 @@ public class FindNonRedundant {
 
 			Collection<Set<Character>> valueKey = value.get(key);
 
-			// Loại bỏ phụ thuộc hàm đang xét ra khỏi F0 được F
-			value.removeAll(key);
+			for (Set<Character> valueCheck : valueKey) {
+				Multimap<Set<Character>, Set<Character>> valueF = ArrayListMultimap.create(functionalDependencies);
+				// Loại bỏ phụ thuộc hàm đang xét ra khỏi F0 được F
+				valueF.remove(key, valueCheck);
 
-			// Tìm bao đóng của phụ thuộc hàm đang xét trên F
-			Set<Character> attributeClosure = AttributeClosure.findAttributeClosure(key, attributes, value);
-			// Nếu bao đóng chứa các thuộc tính đích tức nó dư thừa
-			if (attributeClosure.containsAll(valueKey)) {
-				// Thêm phụ thuộc hàm cần loại bỏ vào valueRemove
-				valueRemove.add(key);
+				// Tìm bao đóng của phụ thuộc hàm đang xét trên F
+				Set<Character> attributeClosure = AttributeClosure.findAttributeClosure(key, attributes, valueF);
+				// Nếu bao đóng chứa các thuộc tính đích tức nó dư thừa
+				if (attributeClosure.containsAll(valueCheck)) {
+					// Thêm phụ thuộc hàm cần loại bỏ vào remove
+					remove.put(key, valueCheck);
+				}
 			}
+
 		}
-		
+
 		// Loại bỏ các phụ thuộc hàm dư thừa
-		for (Set<Character> remove : valueRemove) {
-			answer.removeAll(remove);
+		Set<Set<Character>> keyRemove = remove.keySet();
+		for (Set<Character> key : keyRemove) {
+			Collection<Set<Character>> valueRemove = remove.get(key);
+			for (Set<Character> value : valueRemove) {
+				answer.remove(key, value);
+			}
 		}
 
 		return answer;
