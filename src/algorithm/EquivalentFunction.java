@@ -1,9 +1,10 @@
 package algorithm;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 public class EquivalentFunction {
 	public static void main(String[] args) {
@@ -17,7 +18,7 @@ public class EquivalentFunction {
 		attributes.add('F');
 
 		// Tập phụ thuộc hàm ban đầu
-		Map<Set<Character>, Set<Character>> functionalDependencies1 = new HashMap<>();
+		Multimap<Set<Character>, Set<Character>> functionalDependencies1 = ArrayListMultimap.create();
 		Set<Character> lhs11 = new HashSet<>();
 		lhs11.add('A');
 		lhs11.add('B');
@@ -39,7 +40,7 @@ public class EquivalentFunction {
 		rhs13.add('B');
 		functionalDependencies1.put(lhs13, rhs13);
 
-		Map<Set<Character>, Set<Character>> functionalDependencies2 = new HashMap<>();
+		Multimap<Set<Character>, Set<Character>> functionalDependencies2 = ArrayListMultimap.create();
 		Set<Character> lhs21 = new HashSet<>();
 		lhs21.add('A');
 		lhs21.add('C');
@@ -71,9 +72,10 @@ public class EquivalentFunction {
 	 * @param functionalDependencies2 Tập phụ thuộc hàm G
 	 * @return Kết quả của việc so sánh sự tương đương 2 tập phụ thuộc hàm F và G
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	public static boolean isEquivalentFunction(Set<Character> attributes,
-			Map<Set<Character>, Set<Character>> functionalDependencies1,
-			Map<Set<Character>, Set<Character>> functionalDependencies2) {
+			Multimap<Set<Character>, Set<Character>> functionalDependencies1,
+			Multimap<Set<Character>, Set<Character>> functionalDependencies2) {
 		// Tập nguồn của tập phụ thuộc hàm F
 		Set<Set<Character>> F = functionalDependencies1.keySet();
 		// Xét từng phụ thuộc hàm của tập phụ thuộc hàm F

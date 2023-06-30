@@ -1,9 +1,11 @@
 package algorithm;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 public class AttributeClosure {
 	public static void main(String[] args) {
@@ -16,7 +18,7 @@ public class AttributeClosure {
 		attributes.add('E');
 
 		// Tập phụ thuộc hàm ban đầu
-		Map<Set<Character>, Set<Character>> functionalDependencies = new HashMap<>();
+		Multimap<Set<Character>, Set<Character>> functionalDependencies = ArrayListMultimap.create();
 		Set<Character> lhs1 = new HashSet<>();
 		lhs1.add('A');
 		lhs1.add('B');
@@ -63,7 +65,7 @@ public class AttributeClosure {
 	 * @return Bao đóng của tập thuộc tính U đối với tập phụ thuộc hàm F trên U
 	 */
 	public static Set<Character> findAttributeClosure(Set<Character> inputAttributes, Set<Character> attributes,
-			Map<Set<Character>, Set<Character>> functionalDependencies) {
+			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
 		// Bao đóng cần tìm
 		Set<Character> closure = new HashSet<>(inputAttributes);
 		boolean changed;
@@ -73,7 +75,7 @@ public class AttributeClosure {
 			changed = false;
 
 			// Duyệt qua tất cả các phụ thuộc hàm bằng vòng lặp for_each
-			for (Map.Entry<Set<Character>, Set<Character>> entry : functionalDependencies.entrySet()) {
+			for (Map.Entry<Set<Character>, Set<Character>> entry : functionalDependencies.entries()) {
 				// Tập thuộc tính bên trái của quan hệ
 				Set<Character> lhs = entry.getKey();
 				// Tập thuộc tính bên phải của quan hệ

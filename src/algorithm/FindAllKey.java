@@ -2,6 +2,9 @@ package algorithm;
 
 import java.util.*;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 public class FindAllKey {
 	public static void main(String[] args) {
 		// Tập thuộc tính ban đầu (A, B, C)
@@ -12,7 +15,7 @@ public class FindAllKey {
 
 		// Tập phụ thuộc hàm ban đầu
 		// AB -> C
-		Map<Set<Character>, Set<Character>> functionalDependencies = new HashMap<>();
+		Multimap<Set<Character>, Set<Character>> functionalDependencies = ArrayListMultimap.create();
 		Set<Character> lhs1 = new HashSet<>(Arrays.asList('A', 'B'));
 		Set<Character> rhs1 = new HashSet<>(Collections.singletonList('C'));
 		functionalDependencies.put(lhs1, rhs1);
@@ -40,11 +43,11 @@ public class FindAllKey {
 	 * @return Một Set các thuộc tính nguồn
 	 */
 	public static Set<Character> findAttributeStart(Set<Character> attributes,
-			Map<Set<Character>, Set<Character>> functionalDependencies) {
+			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
 		Set<Character> attributeStart = new HashSet<>(attributes);
 		Set<Character> right = new HashSet<>();
 
-		for (Map.Entry<Set<Character>, Set<Character>> entry : functionalDependencies.entrySet()) {
+		for (Map.Entry<Set<Character>, Set<Character>> entry : functionalDependencies.entries()) {
 			Set<Character> rhs = entry.getValue();
 
 			for (Character rhs1 : rhs) {
@@ -69,12 +72,12 @@ public class FindAllKey {
 	 * @return Một Set các thuộc tính trung gian
 	 */
 	public static Set<Character> findAttributeMiddle(Set<Character> attributes,
-			Map<Set<Character>, Set<Character>> functionalDependencies) {
+			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
 		Set<Character> attributeMiddle = new HashSet<>();
 		Set<Character> left = new HashSet<>();
 		Set<Character> right = new HashSet<>();
 
-		for (Map.Entry<Set<Character>, Set<Character>> entry : functionalDependencies.entrySet()) {
+		for (Map.Entry<Set<Character>, Set<Character>> entry : functionalDependencies.entries()) {
 			Set<Character> lhs = entry.getKey();
 			Set<Character> rhs = entry.getValue();
 
@@ -104,7 +107,7 @@ public class FindAllKey {
 	 * @return
 	 */
 	public static Set<Set<Character>> findAllKeys(Set<Character> attributes,
-			Map<Set<Character>, Set<Character>> functionalDependencies) {
+			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
 		Set<Set<Character>> value = new HashSet<>();
 
 		// Xác định tập thuộc tính nguồn và trung gian

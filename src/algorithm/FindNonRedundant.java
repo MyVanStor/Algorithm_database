@@ -1,10 +1,10 @@
 package algorithm;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 public class FindNonRedundant {
@@ -23,7 +23,8 @@ public class FindNonRedundant {
 		attributes.add('J');
 
 		// Tập phụ thuộc hàm ban đầu
-		Map<Set<Character>, Set<Character>> functionalDependencies1 = new HashMap<>();
+		Multimap<Set<Character>, Set<Character>> functionalDependencies1 = ArrayListMultimap.create();
+		
 		Set<Character> lhs11 = new HashSet<>();
 		lhs11.add('A');
 		Set<Character> rhs11 = new HashSet<>();
@@ -60,20 +61,24 @@ public class FindNonRedundant {
 		Set<Character> rhs15 = new HashSet<>();
 		rhs15.add('J');
 		functionalDependencies1.put(lhs15, rhs15);
-
-		System.out.println(findNonRedundant(attributes, functionalDependencies1));
+		
+		System.out.println(functionalDependencies1);
+		
+//		System.out.println(findNonRedundant(attributes, functionalDependencies1));
 	}
 
 	/**
 	 * Phương thức tìm tập phụ thuộc hàm không dư thừa
-	 * @param attributes				Tập thuộc tính U
-	 * @param functionalDependencies	Tập phụ thuộc hàm F0
-	 * @return 							Tập phụ thuộc hàm không dư thừa
+	 * 
+	 * @param attributes             Tập thuộc tính U
+	 * @param functionalDependencies Tập phụ thuộc hàm F0
+	 * @return Tập phụ thuộc hàm không dư thừa
 	 */
-	public static Map<Set<Character>, Set<Character>> findNonRedundant(Set<Character> attributes,
-			Map<Set<Character>, Set<Character>> functionalDependencies) {
+	@SuppressWarnings("unlikely-arg-type")
+	public static Multimap<Set<Character>, Set<Character>> findNonRedundant(Set<Character> attributes,
+			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
 		// Tập phụ thuộc hàm không dư thừa cần tìm
-		Map<Set<Character>, Set<Character>> answer = new HashMap<>(functionalDependencies);
+		Multimap<Set<Character>, Set<Character>> answer = ArrayListMultimap.create(functionalDependencies);
 		// Chứa các phụ thuộc hàm dư thừa
 		Set<Set<Character>> valueRemove = new HashSet<>();
 
@@ -81,12 +86,12 @@ public class FindNonRedundant {
 
 		// Xét từng phụ thuộc hàm trong tập phụ thuộc hàm F0
 		for (Set<Character> key : keySets) {
-			Map<Set<Character>, Set<Character>> value = new HashMap<>(functionalDependencies);
-			
-			Set<Character> valueKey = value.get(key);
-			
+			Multimap<Set<Character>, Set<Character>> value = ArrayListMultimap.create(functionalDependencies);
+
+			Collection<Set<Character>> valueKey = value.get(key);
+
 			// Loại bỏ phụ thuộc hàm đang xét ra khỏi F0 được F
-			value.remove(key);
+			value.removeAll(key);
 
 			// Tìm bao đóng của phụ thuộc hàm đang xét trên F
 			Set<Character> attributeClosure = AttributeClosure.findAttributeClosure(key, attributes, value);
@@ -96,9 +101,10 @@ public class FindNonRedundant {
 				valueRemove.add(key);
 			}
 		}
+		
 		// Loại bỏ các phụ thuộc hàm dư thừa
 		for (Set<Character> remove : valueRemove) {
-			answer.remove(remove);
+			answer.removeAll(remove);
 		}
 
 		return answer;

@@ -1,9 +1,13 @@
 package algorithm;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 public class FindMinimalCover {
 	public static void main(String[] args) {
@@ -18,13 +22,19 @@ public class FindMinimalCover {
 		attributes.add('G');
 		
 		// Tập phụ thuộc hàm ban đầu
-		Map<Set<Character>, Set<Character>> functionalDependencies = new HashMap<>();
+		Multimap<Set<Character>, Set<Character>> functionalDependencies = ArrayListMultimap.create();
 		Set<Character> lhs11 = new HashSet<>();
 		lhs11.add('A');
 		Set<Character> rhs11 = new HashSet<>();
 		rhs11.add('B');
 		functionalDependencies.put(lhs11, rhs11);
 
+		Set<Character> lhs15 = new HashSet<>();
+		lhs15.add('A');
+		Set<Character> rhs15 = new HashSet<>();
+		rhs15.add('R');
+		functionalDependencies.put(lhs15, rhs15);
+		
 		Set<Character> lhs12 = new HashSet<>();
 		lhs12.add('A');
 		lhs12.add('B');
@@ -50,29 +60,32 @@ public class FindMinimalCover {
 		rhs14.add('E');
 		rhs14.add('G');
 		functionalDependencies.put(lhs14, rhs14);
+		
 		System.out.println("F0 = " + functionalDependencies);
-		System.out.println("Key = " +findMinimalCover(attributes, functionalDependencies));
+		Collection<Set<Character>> valueSet = functionalDependencies.get(lhs11);
+		System.out.println(valueSet.iterator().next());
+//		System.out.println("Key = " +findMinimalCover(attributes, functionalDependencies));
 	}
 
-	public static Map<Set<Character>, Set<Character>> findMinimalCover(Set<Character> attributes,
-			Map<Set<Character>, Set<Character>> functionalDependencies) {
+	public static Multimap<Set<Character>, Set<Character>> findMinimalCover(Set<Character> attributes,
+			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
 
-		Map<Set<Character>, Set<Character>> answer = new HashMap<>();
+		Multimap<Set<Character>, Set<Character>> answer = ArrayListMultimap.create();
 
 		Set<Set<Character>> keySets = functionalDependencies.keySet();
 		// Bước 1: Biến đổi F về dạng F1 = {Li -> Aj}
 		Map<Set<Character>, Set<Character>> F1 = new HashMap<>();
 		for (Set<Character> key : keySets) {
-			Set<Character> valueKey = functionalDependencies.get(key);
-			for (Character character : valueKey) {
+			Collection<Set<Character>> valueKey = functionalDependencies.get(key);
+			for (Set<Character> character : valueKey) {
 				Set<Character> value = new HashSet<>();
-				value.add(character);
+				value.addAll(character);
 				F1.put(key, value);
 			}
 		}
 		System.out.println("F1 = " +F1);
 		// Bước 2: Loại bỏ thuộc tính thừa trong vế trái của các phụ thuộc hàm
-		Map<Set<Character>, Set<Character>> F2 = new HashMap<>();
+		Multimap<Set<Character>, Set<Character>> F2 = ArrayListMultimap.create();
 		for (Set<Character> key : keySets) {
 			Set<Character> valueKey = F1.get(key);
 			if (key.size() > 1) {

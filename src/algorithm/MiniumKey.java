@@ -1,9 +1,10 @@
 package algorithm;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 
 public class MiniumKey {
 	public static void main(String[] args) {
@@ -16,7 +17,7 @@ public class MiniumKey {
 		attributes.add('E');
 
 		// Tập phụ thuộc hàm ban đầu
-		Map<Set<Character>, Set<Character>> functionalDependencies = new HashMap<>();
+		Multimap<Set<Character>, Set<Character>> functionalDependencies = ArrayListMultimap.create();
 		Set<Character> lhs1 = new HashSet<>();
 		lhs1.add('A');
 		lhs1.add('B');
@@ -54,7 +55,7 @@ public class MiniumKey {
 	 * @return Tập khóa tối thiểu
 	 */
 	public static Set<Character> findMinimumKey(Set<Character> attributes,
-			Map<Set<Character>, Set<Character>> functionalDependencies) {
+			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
 		// Tập khóa tối thiểu cần tìm
 		Set<Character> minimumKey = new HashSet<>(attributes);
 
@@ -64,7 +65,7 @@ public class MiniumKey {
 			// Loại bỏ attribute hiện tại đang xét ra khỏi tập khóa tối thiểu
 			newKey.remove(character);
 
-			// Kiểm tra điều kiện tương đường
+			// Kiểm tra điều kiện tương đương
 			Set<Character> check = AttributeClosure.findAttributeClosure(newKey, attributes, functionalDependencies);
 
 			// Nếu bao đóng khác U thì không thay đổi tập khóa tối thiểu
