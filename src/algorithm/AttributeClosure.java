@@ -14,7 +14,7 @@ public class AttributeClosure {
 		attributes.add('A');
 		attributes.add('B');
 		attributes.add('C');
-		attributes.add('C');
+		attributes.add('D');
 		attributes.add('E');
 
 		// Tập phụ thuộc hàm ban đầu
