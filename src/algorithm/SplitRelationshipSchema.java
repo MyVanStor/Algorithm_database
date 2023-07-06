@@ -67,7 +67,12 @@ public class SplitRelationshipSchema {
 		split4.add('D');
 		split.add(split4);
 
-		System.out.println("Mất mát thông tin: "
+		// In kết quả
+		System.out.println("Tập thuộc tính của quan hệ: " + attributes);
+		System.out.println("Tập phụ thuộc hàm F: " + functionalDependencies);
+		System.out.println("Tập quan hệ sau khi tách: " + split);
+
+		System.out.println("\nMất mát thông tin: "
 				+ SplitRelationshipSchema.splitRelationshipSchema(attributes, functionalDependencies, split));
 	}
 
@@ -134,7 +139,7 @@ public class SplitRelationshipSchema {
 								break;
 							}
 						}
-						
+
 						// Đồng nhất t1[Y] = t2[Y]
 						if (isIdentical) {
 							for (Character character : valueSet) {
@@ -148,14 +153,14 @@ public class SplitRelationshipSchema {
 										table[j][index] = table[i][index];
 									}
 									changed = true;
-									
-									for (int h = 0; h < k; h++) {
-										for (int l = 0; l < n; l++) {
-											System.out.print(table[h][l] + " ");
-										}
-										System.out.print("\n");
-									}
-									System.out.println();
+
+//									for (int h = 0; h < k; h++) {
+//										for (int l = 0; l < n; l++) {
+//											System.out.print(table[h][l] + " ");
+//										}
+//										System.out.print("\n");
+//									}
+//									System.out.println();
 								}
 							}
 

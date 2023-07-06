@@ -53,7 +53,11 @@ public class FindMinimalCover {
 		rhs14.add('G');
 		functionalDependencies.put(lhs14, rhs14);
 
-		System.out.println("F0 = " + functionalDependencies);
+		// In kết quả
+		System.out.println("Tập thuộc tính của quan hệ: " + attributes);
+		System.out.println("Tập phụ thuộc hàm F: " + functionalDependencies);
+
+		System.out.println("\nF0 = " + functionalDependencies);
 		System.out.println("Key = " + findMinimalCover(attributes, functionalDependencies));
 	}
 
@@ -121,8 +125,8 @@ public class FindMinimalCover {
 							Set<Character> keyCheck = new HashSet<>(keySet);
 							// Loại bỏ thuộc tính đang xét ra khỏi key
 							keyCheck.remove(character);
-							// Tìm bao đóng của key sau khi loại bỏ thuộc tính và kiểm tra có chứa value hay
-							// không
+							// Kiểm tra sự tương đương của 2 phụ thuộc hàm
+							// Tìm bao đóng của key sau khi loại bỏ thuộc tính và kiểm tra có chứa value hay không
 							if (AttributeClosure.findAttributeClosure(keyCheck, attributes, F21)
 									.containsAll(valueKey)) {
 								changed = true;

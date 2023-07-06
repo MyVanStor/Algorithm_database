@@ -62,11 +62,18 @@ public class EquivalentFunction {
 		rhs23.add('C');
 		functionalDependencies2.put(lhs23, rhs23);
 
-		System.out.println(isEquivalentFunction(attributes, functionalDependencies1, functionalDependencies2));
+		// In kết quả
+		System.out.println("Tập thuộc tính của quan hệ: " + attributes);
+		System.out.println("Tập phụ thuộc hàm F: " + functionalDependencies1);
+		System.out.println("Tập phụ thuộc hàm G: " + functionalDependencies2);
+
+		System.out.println("\nHai tập phụ thuộc hàm tương đương: "
+				+ isEquivalentFunction(attributes, functionalDependencies1, functionalDependencies2));
 	}
 
 	/**
 	 * Phương thức xác định 2 tập phụ thuộc hàm có tương đương nhau hay không
+	 * 
 	 * @param attributes              Tập thuộc tính
 	 * @param functionalDependencies1 Tập phụ thuộc hàm F
 	 * @param functionalDependencies2 Tập phụ thuộc hàm G
@@ -80,10 +87,11 @@ public class EquivalentFunction {
 		Set<Set<Character>> F = functionalDependencies1.keySet();
 		// Xét từng phụ thuộc hàm của tập phụ thuộc hàm F
 		for (Set<Character> set : F) {
-			// Tìm bao đóng của phụ thuộc hàm trên G
+			// Tìm bao đóng của phụ thuộc hàm đang xét trên G
 			Set<Character> value = AttributeClosure.findAttributeClosure(set, attributes, functionalDependencies2);
 			// Nếu bao đóng không chứa tập đích của phụ thuộc hàm
 			if (!value.containsAll(functionalDependencies1.get(set))) {
+				// Kết thúc thuật toán và trả về false
 				return false;
 			}
 		}

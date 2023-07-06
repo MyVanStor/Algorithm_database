@@ -16,6 +16,7 @@ public class AttributeClosure {
 		attributes.add('C');
 		attributes.add('D');
 		attributes.add('E');
+		attributes.add('F');
 
 		// Tập phụ thuộc hàm ban đầu
 		Multimap<Set<Character>, Set<Character>> functionalDependencies = ArrayListMultimap.create();
@@ -27,7 +28,7 @@ public class AttributeClosure {
 		functionalDependencies.put(lhs1, rhs1);
 
 		Set<Character> lhs2 = new HashSet<>();
-		lhs2.add('A');
+		lhs2.add('F');
 		lhs2.add('C');
 		Set<Character> rhs2 = new HashSet<>();
 		rhs2.add('B');
@@ -37,22 +38,25 @@ public class AttributeClosure {
 		lhs3.add('B');
 		lhs3.add('C');
 		Set<Character> rhs3 = new HashSet<>();
-		rhs3.add('E');
+		rhs3.add('A');
 		rhs3.add('D');
 		functionalDependencies.put(lhs3, rhs3);
 
+		Set<Character> lhs4 = new HashSet<>();
+		lhs4.add('D');
+		Set<Character> rhs4 = new HashSet<>();
+		rhs4.add('E');
+		functionalDependencies.put(lhs4, rhs4);
+
 		Set<Character> inputAttributes = new HashSet<>();
-		inputAttributes.add('C');
 		inputAttributes.add('A');
-		inputAttributes.add('D');
-		inputAttributes.add('E');
 		inputAttributes.add('B');
 
-		// Tìm bao đóng
-		Set<Character> closure = findAttributeClosure(inputAttributes, attributes, functionalDependencies);
-
 		// In kết quả
-		System.out.println("Bao đóng: " + closure);
+		System.out.println("Tập thuộc tính xuất phát: " + inputAttributes);
+		System.out.println("Tập thuộc tính của quan hệ: " + attributes);
+		System.out.println("Tập phụ thuộc hàm: " + functionalDependencies);
+		System.out.println("\nBao đóng: " + findAttributeClosure(inputAttributes, attributes, functionalDependencies));
 	}
 
 	/**
@@ -68,6 +72,7 @@ public class AttributeClosure {
 			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
 		// Bao đóng cần tìm
 		Set<Character> closure = new HashSet<>(inputAttributes);
+
 		boolean changed;
 
 		do {
@@ -83,14 +88,16 @@ public class AttributeClosure {
 
 				// Kiểm tra xem lhs có thuộc closure không
 				if (closure.containsAll(lhs)) {
-					// Nếu rhs không thuộc closure, thì thêm vào closure và đánh dấu đã thay đổi
-					if (!closure.containsAll(rhs)) {
-						closure.addAll(rhs);
-						changed = true;
+					// Nếu thuộc tính nào của rhs không thuộc closure, thì thêm vào closure và đánh
+					// dấu đã thay đổi
+					for (Character character : rhs) {
+						if (!closure.contains(character)) {
+							closure.add(character);
+							changed = true;
+						}
 					}
 				}
 			}
-
 		} while (changed);
 		// Trả về bao đóng tìm được
 		return closure;

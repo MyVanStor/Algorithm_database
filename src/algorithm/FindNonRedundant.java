@@ -62,7 +62,11 @@ public class FindNonRedundant {
 		rhs15.add('J');
 		functionalDependencies1.put(lhs15, rhs15);
 
-		System.out.println(findNonRedundant(attributes, functionalDependencies1));
+		// In kết quả
+		System.out.println("Tập thuộc tính của quan hệ: " + attributes);
+		System.out.println("Tập phụ thuộc hàm F: " + functionalDependencies1);
+
+		System.out.println("\nTập phụ thuộc hàm không dư thừa: " + findNonRedundant(attributes, functionalDependencies1));
 	}
 
 	/**
@@ -70,11 +74,11 @@ public class FindNonRedundant {
 	 * 
 	 * @param attributes             Tập thuộc tính U
 	 * @param functionalDependencies Tập phụ thuộc hàm F0
-	 * @return Tập phụ thuộc hàm không dư thừa
+	 * @return 						 Tập phụ thuộc hàm không dư thừa
 	 */
 	public static Multimap<Set<Character>, Set<Character>> findNonRedundant(Set<Character> attributes,
 			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
-		// Tập phụ thuộc hàm không dư thừa cần tìm
+		// Tập phụ thuộc hàm không dư thừa cần tìm: Khởi tạo bằng tập phụ thuộc ban đầu
 		Multimap<Set<Character>, Set<Character>> answer = ArrayListMultimap.create(functionalDependencies);
 		// Chứa các phụ thuộc hàm dư thừa
 		Multimap<Set<Character>, Set<Character>> remove = ArrayListMultimap.create();
@@ -100,7 +104,6 @@ public class FindNonRedundant {
 					remove.put(key, valueCheck);
 				}
 			}
-
 		}
 
 		// Loại bỏ các phụ thuộc hàm dư thừa

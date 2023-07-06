@@ -40,11 +40,10 @@ public class MiniumKey {
 		rhs3.add('E');
 		functionalDependencies.put(lhs3, rhs3);
 
-		// Tìm khóa tối thiểu
-		Set<Character> minimumKey = findMinimumKey(attributes, functionalDependencies);
-
 		// In kết quả
-		System.out.println("Khóa tối thiểu: " + minimumKey);
+		System.out.println("Tập thuộc tính của quan hệ: " + attributes);
+		System.out.println("Tập phụ thuộc hàm: " + functionalDependencies);
+		System.out.println("\nKhóa tối thiểu: " + findMinimumKey(attributes, functionalDependencies));
 	}
 
 	/**
@@ -56,20 +55,22 @@ public class MiniumKey {
 	 */
 	public static Set<Character> findMinimumKey(Set<Character> attributes,
 			Multimap<Set<Character>, Set<Character>> functionalDependencies) {
-		// Tập khóa tối thiểu cần tìm
+		// Tập khóa tối thiểu cần tìm: Xuất phát là tập thuộc tính U
 		Set<Character> minimumKey = new HashSet<>(attributes);
 
-		// Duyệt qua từng attribute của tập thuộc tính U
+		// Duyệt qua từng thuộc tính của tập thuộc tính U
 		for (Character character : attributes) {
 			Set<Character> newKey = new HashSet<>(minimumKey);
 			// Loại bỏ attribute hiện tại đang xét ra khỏi tập khóa tối thiểu
 			newKey.remove(character);
 
 			// Kiểm tra điều kiện tương đương
+			// Tìm bao đóng của tập thuộc tính sau khi loại bỏ 1 thuộc tính
 			Set<Character> check = AttributeClosure.findAttributeClosure(newKey, attributes, functionalDependencies);
 
 			// Nếu bao đóng khác U thì không thay đổi tập khóa tối thiểu
-			if (!check.containsAll(attributes)) {
+			if (!(check.containsAll(attributes) && attributes.containsAll(check))) {
+				// Thêm thuộc tính đã loại bỏ vào lại tập khóa tối thiểu
 				newKey.add(character);
 			}
 			minimumKey = newKey;

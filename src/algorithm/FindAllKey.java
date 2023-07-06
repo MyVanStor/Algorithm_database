@@ -25,12 +25,14 @@ public class FindAllKey {
 		Set<Character> rhs2 = new HashSet<>(Collections.singletonList('A'));
 		functionalDependencies.put(lhs2, rhs2);
 
-		// Tìm tất cả các khóa
-		Set<Set<Character>> allKeys = findAllKeys(attributes, functionalDependencies);
-
 		// In kết quả
-		System.out.println("Tất cả các khóa: ");
-		for (Set<Character> key : allKeys) {
+		System.out.println("Tập thuộc tính của quan hệ: " + attributes);
+		System.out.println("Tập phụ thuộc hàm: " + functionalDependencies);
+
+		Set<Set<Character>> value = findAllKeys(attributes, functionalDependencies);
+
+		System.out.println("\nTập tất cả các khóa: ");
+		for (Set<Character> key : value) {
 			System.out.println(key);
 		}
 	}
@@ -60,7 +62,7 @@ public class FindAllKey {
 				attributeStart.remove(character);
 			}
 		}
-
+		System.out.println("\nTập thuộc tính nguồn: " + attributeStart);
 		return attributeStart;
 	}
 
@@ -95,7 +97,7 @@ public class FindAllKey {
 				attributeMiddle.add(character);
 			}
 		}
-
+		System.out.println("Tập thuộc tính trung gian: " + attributeMiddle);
 		return attributeMiddle;
 	}
 
@@ -122,15 +124,21 @@ public class FindAllKey {
 			Set<Set<Character>> subsets = generateSubsets(attributeMiddles);
 
 			// Tìm siêu khóa Si
+			// Duyệt qua từng tập con của tập trung gian
 			for (Set<Character> set : subsets) {
-				// Với mọi tập con, check là hợp của tập con và tập nguồn
+				// Cấu trúc Set - check là hợp của tập con và tập nguồn
 				Set<Character> check = new HashSet<>(attributeStarts);
 				for (Character character : set) {
 					check.add(character);
 				}
 
-				if (AttributeClosure.findAttributeClosure(check, attributeStarts, functionalDependencies)
-						.containsAll(attributes)) {
+				// Bao đóng của check
+				Set<Character> attributeClosure = AttributeClosure.findAttributeClosure(check, attributeStarts,
+						functionalDependencies);
+
+				// Nếu bao đóng của check bằng với tập thuộc tính U của quan hệ
+				if (attributeClosure.containsAll(attributes) && attributes.containsAll(attributeClosure)) {
+					// Thêm check vào tập siêu khóa
 					value.add(check);
 				}
 			}
@@ -167,10 +175,9 @@ public class FindAllKey {
 				newSubset.add(attr);
 				newSubsets.add(newSubset);
 			}
-
 			subsets.addAll(newSubsets);
 		}
-
+		System.out.println("Tập con của tập trung gian: " + subsets);
 		return subsets;
 	}
 
