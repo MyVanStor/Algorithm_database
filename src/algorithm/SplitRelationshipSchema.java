@@ -134,6 +134,7 @@ public class SplitRelationshipSchema {
 								break;
 							}
 						}
+						
 						// Đồng nhất t1[Y] = t2[Y]
 						if (isIdentical) {
 							for (Character character : valueSet) {
@@ -147,8 +148,17 @@ public class SplitRelationshipSchema {
 										table[j][index] = table[i][index];
 									}
 									changed = true;
+									
+									for (int h = 0; h < k; h++) {
+										for (int l = 0; l < n; l++) {
+											System.out.print(table[h][l] + " ");
+										}
+										System.out.print("\n");
+									}
+									System.out.println();
 								}
 							}
+
 						}
 					}
 				}
